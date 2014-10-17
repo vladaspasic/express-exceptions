@@ -12,4 +12,29 @@ you can show a different page.
 
 This module comes with a predefined set of custom errors.
 
+- TypeError
+- EvalError
+- InternalError
+- RangeError
+- ReferenceError
+- SyntaxError
+- UriError
+- RuntimeError
+- IllegalState
+- NotImplemented
+- DatabaseError
+- WorkerError
+- ValidationError
+- BadRequest
+- Unauthorized
+- NotFound
+- Forbidden
+- NotAcceptable
+ 
+Installation
+--------------
+
+```javascirpt
+npm install express-exceptions --save
+```
 
