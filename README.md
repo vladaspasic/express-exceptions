@@ -305,4 +305,4 @@ Here is a list of all defined Errors in the module:
 License
 ----
 
-Apache
+Version 2.0
