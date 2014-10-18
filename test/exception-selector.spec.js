@@ -23,12 +23,19 @@ app.get('/forbidden', function(req, res){
 	throw new Forbidden('Forbidden Access');
 });
 
+app.get('/badRequest', function(req, res){
+	throw new BadRequest('Bad Request');
+});
+
 app.use(require('../index')({
 	environment: 'production',
 	expose: true
 },{
 	Error: 'error',
-	'Forbidden': 'forbidden'
+	'Forbidden': 'forbidden',
+	BadRequest: function(error, req, res) {
+		return res.json(error);
+	}
 }));
 
 describe('Exception Selector', function() {
@@ -46,6 +53,17 @@ describe('Exception Selector', function() {
 		request(app).get('/forbidden').expect(403).expect(function(res) {
 			expect(res.text).to.contain('<h1>Forbidden</h1>');
 			expect(res.text).to.contain('<p>Forbidden Access</p>');
+		}).end(function(err) {
+			done(err);
+		});
+	});
+
+	it('#should render json BadRequest error', function(done) {
+		request(app).get('/badRequest').expect(400).expect(function(res) {
+			expect(res.body).to.have.property('message').and.equal('Bad Request');
+			expect(res.body).to.have.property('name').and.equal('BadRequest');
+			expect(res.body).to.have.property('statusCode').and.equal(400);
+			expect(res.body).to.have.property('stack').and.to.have.length.above(10);
 		}).end(function(err) {
 			done(err);
 		});

@@ -14,6 +14,8 @@ app.get('/badrequest', function(req, res){
 	throw new BadRequest('Simple Error Test');
 });
 
+console.log(require('../index'));
+
 app.use(require('../index')());
 
 describe('Exception Report Page', function() {
@@ -33,6 +35,6 @@ function testResponse(page, name, statusCode, message, line, done) {
 		expect(res.text).to.contain(message);
 		expect(res.text).to.contain('<h2>'+name+'</h2>');
 		expect(res.text).to.contain('<p>'+message+'</p>');
-		expect(res.text).to.contain('/Users/vspasic/Sites/express-exception-report/test/exception-report.spec.js');
+		expect(res.text).to.contain(__dirname + '/exception-report.spec.js');
 	}).end(done);
 }
