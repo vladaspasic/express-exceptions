@@ -7,6 +7,10 @@ This package comes with an exception reporting page, showing all types of inform
 where did it happen, your environment and system information. This report page is shown only if the 
 application is running in development mode.
 
+Here you can see the exception page example:
+
+![Screenshot](http://s30.postimg.org/gymtyi3gx/exception_report.png?raw=true)
+
 When running in production mode, it offers a Error page selection. This means that for different Error types
 you can show a different page.
 
