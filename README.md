@@ -9,7 +9,7 @@ application is running in development mode.
 
 Here you can see the exception page example:
 
-![Screenshot](http://s30.postimg.org/gymtyi3gx/exception_report.png?raw=true)
+![Screenshot](http://s4.postimg.org/h5bzo0uzx/exception_report.png?raw=true)
 
 When running in production mode, it offers a Error page selection. This means that for different Error types
 you can show a different page.
