@@ -1,0 +1,25 @@
+<div class='headline error'>
+	<h2>{{this.name}}</h2>
+	<p>{{this.message}}</p>	
+</div>
+
+<hr/>
+
+<h3>Stack Trace</h3>
+
+<ul class='stack-list'>
+	{{#each this.stackTrace}}
+		<li>
+			{{> trace this}}
+		</li>
+	{{/each}}    
+</ul>
+
+{{#if this.jse_cause}}
+	<div class="cause-wrapper">
+		<h3 class='cause-headline'>Caused by:</h3>
+		<hr/>
+
+		{{> error this.jse_cause}}
+	</div>
+{{/if}}

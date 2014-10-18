@@ -1,0 +1,22 @@
+<a href="#" class='dropdown-trigger'>
+    <p class='file-location'>
+        <span class='caret'></span>
+        <b>{{this.name}}</b>
+        {{this.filename}}, Line: <b>{{this.line}}</b>
+    </p>
+</a>
+
+<div class="file-dropdown">
+    <table class='file-table'>
+        {{#each this.lines}}
+            <tr class={{errorClass this.line ../line}}>
+                <td class='file-line-number'>
+                    {{this.line}}
+                </td>
+                <td class='code'>
+                    {{{renderLine this.content}}}
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+</div>

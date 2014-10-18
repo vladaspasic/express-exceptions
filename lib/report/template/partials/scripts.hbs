@@ -1,0 +1,21 @@
+<script type="text/javascript">
+	(function() {
+
+		'use strict';
+
+		$(document).ready(function() {
+			$('table').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+		});
+
+		$('.stack-list > li:first-child > a').addClass('active');
+
+		$(document).on('click', 'a.dropdown-trigger', function() {
+			$(this).toggleClass('active');
+			$(this).next().slideToggle();
+			return false;
+		});
+
+	}).call(this);
+</script>

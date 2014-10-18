@@ -1,0 +1,31 @@
+{
+  "name": "express-exceptions",
+  "version": "0.0.1",
+  "description": "Express Custom Errors and Exception reporting",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "npm prune",
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vladaspasic/express-exceptions.git"
+  },
+  "keywords": [
+    "Node",
+    "Modules"
+  ],
+  "dependencies": {
+    "extsprintf": "1.2.0",
+    "lodash": "2.4.1",
+    "express-handlebars": "1.1.0"
+  },
+  "devDependencies": {
+    "chai": "1.9.1",
+    "supertest": "0.13.0",
+    "mocha": "1.20.1"
+  },
+  "author": "Vladimir Spasic",
+  "license": "Apache-2.0",
+  "readmeFilename": "README.md"
+}
