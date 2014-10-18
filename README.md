@@ -78,6 +78,27 @@ This is the configaration object for selecting the Error pages. The key can be a
 
 ```
 
+If we want to configure it, so it will use the `console` as the log output, and all the error pages are located in a 
+`views/errors` folder, and we have a error page selector configuration, we would do something like this.
+
+```javascirpt
+var express = require('express'),
+    exceptions = require('express-exceptions');
+    
+    
+var app = express();
+
+app.use(exceptions({
+    logger: console,
+    pagePrefix: 'errors'
+}, {
+    'NotFound': '404',
+    'Unauthorized': 'unauthorized',
+    'Forbidden': 'unauthorized'
+}));
+
+```
+
 This module also exposes:
 
 ### exceptions.create(name, settings)
