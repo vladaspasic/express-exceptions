@@ -27,10 +27,22 @@ app.get('/badRequest', function(req, res){
 	throw new BadRequest('Bad Request');
 });
 
+app.get('/api/badRequest', function(req, res){
+	throw new BadRequest('Bad Request');
+});
+
+app.use('/api/*', require('../index')({
+	showExceptionPage: false
+}, {
+	Error: function(error, req, res, next) {
+		return res.json(error);
+    }
+}));
+
 app.use(require('../index')({
 	environment: 'production',
 	expose: true
-},{
+}, {
 	Error: 'error',
 	'Forbidden': 'forbidden',
 	BadRequest: function(error, req, res) {
@@ -60,6 +72,17 @@ describe('Exception Selector', function() {
 
 	it('#should render json BadRequest error', function(done) {
 		request(app).get('/badRequest').expect(400).expect(function(res) {
+			expect(res.body).to.have.property('message').and.equal('Bad Request');
+			expect(res.body).to.have.property('name').and.equal('BadRequest');
+			expect(res.body).to.have.property('statusCode').and.equal(400);
+			expect(res.body).to.have.property('stack').and.to.have.length.above(10);
+		}).end(function(err) {
+			done(err);
+		});
+	});
+
+	it('#should render the json error page', function(done) {
+		request(app).get('/api/badRequest').expect(400).expect(function(res) {
 			expect(res.body).to.have.property('message').and.equal('Bad Request');
 			expect(res.body).to.have.property('name').and.equal('BadRequest');
 			expect(res.body).to.have.property('statusCode').and.equal(400);

@@ -56,6 +56,10 @@ By default it is a `noop` function.
 
 If all the pages are located in a seperate folder, here you can define that folder prefix. Default: `''`
 
+##### showExceptionPage
+
+If you do not wish to show an Exception Report page.
+
 ##### defaultErrorPage
 
 Set a default Error page to be render, when an Error occurrs in `production` mode. Default: `error`
@@ -102,6 +106,31 @@ app.use(exceptions({
 }));
 
 ```
+
+You can use this middleware more than once. Let's say that you have some REST routes in your application, and you do not want to show an HTML page, you can do something like this.
+
+```javascirpt
+var express = require('express'),
+    exceptions = require('express-exceptions');
+    
+    
+var app = express();
+
+// Use only when an error occurs on routes that start with /api/
+app.use('/api/*', exceptions({
+  showExceptionPage: false
+}, {
+  'Error': function(error, req, res, next) {
+    
+    // toJSON method will be invoked automatically
+    return res.json(error);
+  }
+}
+}));
+
+// Use this as a default
+app.use(exceptions());
+
 
 This module also exposes:
 
@@ -171,6 +200,49 @@ myError.cause() --> 'TypeError: An error occured'
 
 ```
 
+#### Error.stackTrace()
+
+Type: ```Function```
+
+Returns: ```String```
+
+Creates a stack trace for the Error. It uses the Error.stack to build it. If the Error had a cause, the same method will be invoked on it. This way you would get the whole stack trace what happend in your application.
+
+```javascirpt
+
+var myError = new Error();
+
+myError.stackTrace();
+
+Error: An error occurred
+    at methodName (/your.file.js:13:9);
+    at methodName (/your.file.js:23:16);
+    at Context.<anonymous> (/your.other.file.js:50:19);
+
+```
+
+```javascirpt
+
+var myError = new Error(new TypeError("An error occurred"), "Error cought");
+
+myError.stackTrace();
+
+Error: Error cought
+    at methodName (/your.file.js:13:9);
+    at methodName (/your.file.js:23:16);
+    at Context.<anonymous> (/your.other.file.js:50:19);
+Caused by: TypeError: An error occurred
+    at methodName (/your.file.js:42:12);
+    at methodName (/your.file.js:24:22);
+
+```
+
+#### Error.printStackTrace()
+
+Type: ```Function```
+
+Prints the stack trace to sdterr.
+
 #### Error.init()
 
 Type: ```Function```
@@ -209,6 +281,8 @@ myError.toJSON();
    }
 }
 ```
+
+The output above is produced only when you not are running the application in `production` mode. When running in `production` mode, `logLevel` and `stack` properties are ommited from the output.
 
 #### Error.toString()
 

@@ -14,8 +14,6 @@ app.get('/badrequest', function(req, res){
 	throw new BadRequest('Simple Error Test');
 });
 
-console.log(require('../index'));
-
 app.use(require('../index')());
 
 describe('Exception Report Page', function() {

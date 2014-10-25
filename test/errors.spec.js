@@ -4,6 +4,24 @@ var chai = require('chai'),
 var assert = chai.assert,
 	expect = chai.expect;
 
+/**
+ * Creates a new Error instance
+ */
+function createError(name, message, options) {
+	var E = errors.create(name, options || {});
+
+	return new E(message);
+}
+
+/**
+ * Throws an error
+ */
+function throwError(type, message) {
+	if(!errors[type]) return;
+
+	throw new errors[type](message);
+}
+
 describe('errors', function(){
 
 	before(function() {
@@ -78,22 +96,29 @@ describe('errors', function(){
 
 	});
 
+	describe('#stackTrace', function() {
+
+		it('should render stack trace with no cause', function() {
+			var error = createError('MyError', 'Some message');
+
+			var trace = error.stackTrace();
+
+			expect(trace).to.contain(__dirname + '/errors.spec.js:13');
+			expect(trace).to.contain(__dirname + '/errors.spec.js:102');
+		});
+
+		it('should render stack trace with a cause', function() {
+			var cause = createError('MyError', 'Some message');
+			var error = new errors.TypeError(cause, 'Main error');
+
+			var trace = error.stackTrace();
+
+			expect(trace).to.contain(__dirname + '/errors.spec.js:13');
+			expect(trace).to.contain(__dirname + '/errors.spec.js:112');
+			expect(trace).to.contain('Caused by: MyError: Some message');
+			expect(trace).to.contain(__dirname + '/errors.spec.js:13');
+			expect(trace).to.contain(__dirname + '/errors.spec.js:111');
+		});
+
+	});
 });
-
-/**
- * Creates a new Error instance
- */
-function createError(name, message, options) {
-	var E = errors.create(name, options || {});
-
-	return new E(message);
-}
-
-/**
- * Throws an error
- */
-function throwError(type, message) {
-	if(!errors[type]) return;
-
-	throw new errors[type](message);
-}
