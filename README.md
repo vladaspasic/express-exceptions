@@ -58,7 +58,7 @@ If all the pages are located in a seperate folder, here you can define that fold
 
 ##### showExceptionPage
 
-If you do not wish to show an Exception Report page.
+If you do not wish to show an Exception Report page, set this to `false`. Default: `true`.
 
 ##### defaultErrorPage
 
