@@ -131,6 +131,7 @@ app.use('/api/*', exceptions({
 // Use this as a default
 app.use(exceptions());
 
+```
 
 This module also exposes:
 
