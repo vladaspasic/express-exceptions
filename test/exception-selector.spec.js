@@ -31,12 +31,20 @@ app.get('/api/badRequest', function(req, res){
 	throw new BadRequest('Bad Request');
 });
 
+app.get('/handler/error', function(error, req, res) {
+	throw new DatabaseError('Some DatabaseError.');
+});
+
 app.use('/api/*', require('../index')({
 	showExceptionPage: false
 }, {
 	Error: function(error, req, res, next) {
 		return res.json(error);
     }
+}));
+
+app.use('/handler/*', require('../index')(function(error, req, res, next) {
+	return res.json(error);
 }));
 
 app.use(require('../index')({
@@ -86,6 +94,17 @@ describe('Exception Selector', function() {
 			expect(res.body).to.have.property('message').and.equal('Bad Request');
 			expect(res.body).to.have.property('name').and.equal('BadRequest');
 			expect(res.body).to.have.property('statusCode').and.equal(400);
+			expect(res.body).to.have.property('stack').and.to.have.length.above(10);
+		}).end(function(err) {
+			done(err);
+		});
+	});
+
+	it('#should render the DatabaseError page', function(done) {
+		request(app).get('/handler/error').expect(500).expect(function(res) {
+			expect(res.body).to.have.property('message').and.equal('Some DatabaseError.');
+			expect(res.body).to.have.property('name').and.equal('DatabaseError');
+			expect(res.body).to.have.property('statusCode').and.equal(500);
 			expect(res.body).to.have.property('stack').and.to.have.length.above(10);
 		}).end(function(err) {
 			done(err);
