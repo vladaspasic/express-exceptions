@@ -58,7 +58,7 @@ If all the pages are located in a seperate folder, here you can define that fold
 
 ##### showExceptionPage
 
-If you do not wish to show an Exception Report page.
+If you do not wish to show an Exception Report page, set this to `false`. Default: `true`.
 
 ##### defaultErrorPage
 
@@ -131,6 +131,7 @@ app.use('/api/*', exceptions({
 // Use this as a default
 app.use(exceptions());
 
+```
 
 This module also exposes:
 
