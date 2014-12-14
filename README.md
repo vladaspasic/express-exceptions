@@ -1,4 +1,4 @@
-express-exceptions
+express-exceptions [![Build Status](https://travis-ci.org/vladaspasic/express-exceptions.svg)](https://travis-ci.org/vladaspasic/express-exceptions) [![Coverage Status](https://img.shields.io/coveralls/vladaspasic/express-exceptions.svg)](https://coveralls.io/r/vladaspasic/express-exceptions)
 ==================
 
 Express middleware for handling Errors in both production and development mode.
