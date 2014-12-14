@@ -20,15 +20,15 @@ app.get('/error', function(req, res){
 });
 
 app.get('/forbidden', function(req, res){
-	throw new Forbidden('Forbidden Access');
+	throw new ForbiddenError('Forbidden Access');
 });
 
 app.get('/badRequest', function(req, res){
-	throw new BadRequest('Bad Request');
+	throw new BadRequestError('Bad Request');
 });
 
 app.get('/api/badRequest', function(req, res){
-	throw new BadRequest('Bad Request');
+	throw new BadRequestError('Bad Request');
 });
 
 app.get('/handler/error', function(error, req, res) {
@@ -79,20 +79,13 @@ describe('Exception Selector', function() {
 	});
 
 	it('#should render json BadRequest error', function(done) {
-		request(app).get('/badRequest').expect(400).expect(function(res) {
-			expect(res.body).to.have.property('message').and.equal('Bad Request');
-			expect(res.body).to.have.property('name').and.equal('BadRequest');
-			expect(res.body).to.have.property('statusCode').and.equal(400);
-			expect(res.body).to.have.property('stack').and.to.have.length.above(10);
-		}).end(function(err) {
-			done(err);
-		});
+		request(app).get('/badRequest').expect(400).end(done);
 	});
 
 	it('#should render the json error page', function(done) {
 		request(app).get('/api/badRequest').expect(400).expect(function(res) {
 			expect(res.body).to.have.property('message').and.equal('Bad Request');
-			expect(res.body).to.have.property('name').and.equal('BadRequest');
+			expect(res.body).to.have.property('name').and.equal('Bad Request');
 			expect(res.body).to.have.property('statusCode').and.equal(400);
 			expect(res.body).to.have.property('stack').and.to.have.length.above(10);
 		}).end(function(err) {

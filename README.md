@@ -47,6 +47,8 @@ app.use(exceptions());
 
 This property tells the module should it expose custom Errors to the global scope. Default: `true`
 
+Read more about exposing errors in [error-globals](https://github.com/vladaspasic/error-globals)
+
 ##### logger
 
 Attach a Logger instance that used by the application, so the module can automatically log errors.
@@ -101,8 +103,8 @@ app.use(exceptions({
     pagePrefix: 'errors'
 }, {
     'NotFound': '404',
-    'Unauthorized': 'unauthorized',
-    'Forbidden': 'unauthorized'
+    'UnauthorizedError': 'unauthorized',
+    'ForbiddenError': 'unauthorized'
 }));
 
 ```
@@ -161,6 +163,8 @@ exceptions.create('MyCustomError', {
 
 ```
 
+For more information visit [error-globals](https://github.com/vladaspasic/error-globals)
+
 ### exceptions.exceptionPageHandler(error, request, response, next)
 
 Type: ```Function```
@@ -177,209 +181,7 @@ var app = express();
 
 app.use(exceptions.exceptionPageHandler);
 
-
 ```
-
-
-## Errors
-
-All Errors have been customized got this module, and they now have a bit more properties now:
-
-#### Error.cause()
-
-Type: ```Function```
-
-Returns: ```Error```
-
-A method that returns a cause of the Error.
-
-```javascirpt
-
-var myError = new Error(new TypeError("An error occurred"));
-
-myError.cause() --> 'TypeError: An error occured'
-
-```
-
-#### Error.stackTrace()
-
-Type: ```Function```
-
-Returns: ```String```
-
-Creates a stack trace for the Error. It uses the Error.stack to build it. If the Error had a cause, the same method will be invoked on it. This way you would get the whole stack trace what happend in your application.
-
-```javascirpt
-
-var myError = new Error();
-
-myError.stackTrace();
-
-Error: An error occurred
-    at methodName (/your.file.js:13:9);
-    at methodName (/your.file.js:23:16);
-    at Context.<anonymous> (/your.other.file.js:50:19);
-
-```
-
-```javascirpt
-
-var myError = new Error(new TypeError("An error occurred"), "Error cought");
-
-myError.stackTrace();
-
-Error: Error cought
-    at methodName (/your.file.js:13:9);
-    at methodName (/your.file.js:23:16);
-    at Context.<anonymous> (/your.other.file.js:50:19);
-Caused by: TypeError: An error occurred
-    at methodName (/your.file.js:42:12);
-    at methodName (/your.file.js:24:22);
-
-```
-
-#### Error.printStackTrace()
-
-Type: ```Function```
-
-Prints the stack trace to sdterr.
-
-#### Error.init()
-
-Type: ```Function```
-
-Invoked by the constructor, usefull to do custom argument handling for the Error. This is a private function and it should not be invoked manually.
-
-#### Error.toJSON()
-
-Type: ```Function```
-
-Returns: ```Object```
-
-A method that returns a json representation of the Error.
-
-```javascirpt
-
-var myError = new Error("An error occurred");
-
-myError.toJSON();
-
-{ name: 'Error',
-  message: 'An error occurred',
-  statusCode: 500,
-  logLevel: 'error',
-  stack:  [ 
-   { name: 'someFunctionName',
-     filename: 'location/of/the/file',
-     line: 91,
-     column: 9
-   },
-   { 
-    name: 'Context.<anonymous>',
-    filename: 'location/of/the/file',
-    line: 28,
-    column: 10
-   }
-}
-```
-
-The output above is produced only when you not are running the application in `production` mode. When running in `production` mode, `logLevel` and `stack` properties are ommited from the output.
-
-#### Error.toString()
-
-Type: ```Function```
-
-Returns: ```String```
-
-Returns a to String representation of the Error in the format of Error.name: Error.message
-
-```javascirpt
-
-var myError = new Error("An error occurred");
-
-myError.toString() -> 'Error: An error occurred'
-
-```
-
-#### Error.loggerLevel
-
-Type: ```Property```
-
-Returns: ```String```
-
-A logger level for the Error
-
-#### Error.statusCode
-
-Type: ```Property```
-
-Returns: ```Number```
-
-HTTP status code for the Error
-
-### Predefined Errors
-
-This module comes with a predefined set of custom errors. All Errors have a `statusCode` and `loggerLevel` properties,
-so we could easily set the status code of the response, and log the Error apropriatelly.
-
-
-
-Here is a list of all defined Errors in the module:
-
-- TypeError
-  - statusCode: 500
-  - loggerLevel: error
-- EvalError
-  - statusCode: 500
-  - loggerLevel: error
-- InternalError
-  - statusCode: 500
-  - loggerLevel: error
-- RangeError
-  - statusCode: 500
-  - loggerLevel: error
-- ReferenceError
-  - statusCode: 500
-  - loggerLevel: error
-- SyntaxError
-  - statusCode: 500
-  - loggerLevel: error
-- UriError
-  - statusCode: 500
-  - loggerLevel: error
-- RuntimeError
-  - statusCode: 500
-  - loggerLevel: error
-- IllegalState
-  - statusCode: 500
-  - loggerLevel: error
-- NotImplemented
-  - statusCode: 500
-  - loggerLevel: error
-- DatabaseError
-  - statusCode: 500
-  - loggerLevel: error
-- WorkerError
-  - statusCode: 500
-  - loggerLevel: error
-- ValidationError
-  - statusCode: 500
-  - loggerLevel: warn
-- BadRequest
-  - statusCode: 400
-  - loggerLevel: warn
-- Unauthorized
-  - statusCode: 401
-  - loggerLevel: warn
-- Forbidden
-  - statusCode: 403
-  - loggerLevel: warn
-- NotFound
-  - statusCode: 404
-  - loggerLevel: warn
-- NotAcceptable
-  - statusCode: 406
-  - loggerLevel: warn
 
 License
 ----

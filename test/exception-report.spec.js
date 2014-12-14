@@ -10,8 +10,8 @@ app.get('/error', function(req, res){
 	throw new Error('Simple Error Test');
 });
 
-app.get('/badrequest', function(req, res){
-	throw new BadRequest('Simple Error Test');
+app.get('/badrequest', function(req, res) {
+	throw new BadRequestError('Simple Error Test');
 });
 
 app.use(require('../index')());
@@ -23,7 +23,7 @@ describe('Exception Report Page', function() {
 	});
 
 	it('#should render BadRequest', function(done) {
-		testResponse('/badrequest', 'BadRequest', 400, 'Simple Error Test', 14, done);
+		testResponse('/badrequest', 'Bad Request', 400, 'Simple Error Test', 14, done);
 	});
 
 });

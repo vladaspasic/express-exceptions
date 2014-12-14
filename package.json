@@ -1,11 +1,13 @@
 {
   "name": "express-exceptions",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Express Custom Errors and Exception reporting",
   "main": "index.js",
   "scripts": {
     "prepublish": "npm prune",
-    "test": "make test"
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "test-coveralls": "make test-coveralls"
   },
   "repository": {
     "type": "git",
@@ -16,6 +18,7 @@
     "Modules"
   ],
   "dependencies": {
+    "error-globals": "0.0.2",
     "extsprintf": "1.2.0",
     "lodash": "2.4.1",
     "express-handlebars": "1.1.0"
@@ -24,6 +27,10 @@
     "chai": "1.9.1",
     "supertest": "0.13.0",
     "mocha": "1.20.1",
+    "istanbul": "^0.3.5",
+    "jscover": "^0.2.4",
+    "coveralls": "^2.11.2",
+    "mocha-lcov-reporter": "0.0.1",
     "express": "*"
   },
   "author": "Vladimir Spasic",
